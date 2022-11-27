@@ -88,7 +88,8 @@ if __name__ == '__main__':
         directory = '.'
 
     app = QtWidgets.QApplication([])
-    win = FSWidget(directory)
+    win = FSWidget(directory, ['*/__pycache__'])
+    win.setWindowTitle('With filter')
     win.resize(600, 300)
     win.show()
     app.exec()

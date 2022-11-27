@@ -77,3 +77,5 @@ win = FSWidget(directory, patterns)
 win.show()
 ...
 ```
+---
+![](screenshot.jpg)
