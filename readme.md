@@ -20,62 +20,43 @@ Uses QDirIterator to get files and directories inside a directory.
 ## Features and TODO
 - [x] View a directory
 - [x] Use glob patterns to stop a directory from showing
-- [ ] Lazy loading
+- [X] Lazy loading
 - [ ] Watch for file changes
 
 ---
 
-## Examples
+## Documentation
 
-1. View a directory
-
+1. ### Creating instance of FSWidget
 ```python
-from fswidget import FSWidget
-...
+root_path = 'path/to/directory'
 
-...
-win = FSWidget('.') # opens the current working directory
-win.show()
-...
-```
-
-2. Use custom icon provider
-```python
-from fswidget import FSWidget
-...
-
-class CustomIconProvider(QtWidgets.QFileIconProvider):
-    # makes it so that pdf files have python icon besides them
-    def icon(self, info: QtCore.QFileInfo) -> QtGui.QIcon:
-        if info.suffix() == 'pdf':
-            return super().icon(QtCore.QFileInfo('anthing.py'))
-        return super().icon(info)
-
-
-...
-win = FSWidget(directory)
-
-win.icon_provider = CustomIconProvider()
-win.load_icons() # do this to see changes
-
-win.show()
-...
-```
-
-3. Using filters to not show certain directories
-```python
-from fswidget import FSWidget
-...
-
-patterns = [
+# dont want anything that matches these to show
+exclude_patterns = [
     '*/__pycache__',
-    '*/dist'
+    '*/dist',
+    '*/env'
 ]
 
-...
-win = FSWidget(directory, patterns)
-win.show()
-...
+# loads the directory content when directory is expanded
+## decreases startup time and memory usage for large directories
+## by loading contents only when user wants it
+lazy_loading = True
+
+win = FSWidget(root_path, exclude_patterns, lazy_loading)
+```
+
+2. ### Using custom icons
+```python
+class CustomIconProvider(QtGui.QFileIconProvider):
+    def icon(self, info: QtCore.QFileInfo) -> QtGui.QIcon:
+        if info.suffix() in ('py', 'pyw'):
+            return QtGui.QIcon('path/to/icon')
+        return super().icon(info)
+
+win = FSWidget(...)
+win.icon_provider = CustomIconProvider()
+win.load_icons() # necessary after changing icon provider
 ```
 ---
 ![](screenshot.jpg)
