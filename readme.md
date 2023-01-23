@@ -1,4 +1,6 @@
 
+# THIS IS NO LONGER ACTIVE AND DEVELOPMENT HAPPENS IN [Github Repo](https://github.com/StudentCoder04/Qt-File-System-Widget)
+
 # PyQt based File System Widget
 
 ## Why
